@@ -31,7 +31,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     animationController.forward();
 
-    animation.addStatusListener((status) {
+    /*animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         // forward animation completed
         animationController.reverse(from: 1.0);
@@ -39,12 +39,18 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         // reverse animation completed;
         animationController.forward();
       }
-    });
+    });*/
 
     animationController.addListener(() {
       setState(() {});
       print(animationController.value);
     });
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   @override
