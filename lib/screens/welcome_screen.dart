@@ -25,10 +25,22 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
 
     // the parent defines to what is this animation going to be applied to
+    // with these animations the controller's upperBounds has to be 1
     animation =
         CurvedAnimation(parent: animationController, curve: Curves.ease);
 
     animationController.forward();
+
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        // forward animation completed
+        animationController.reverse(from: 1.0);
+      } else if (status == AnimationStatus.dismissed) {
+        // reverse animation completed;
+        animationController.forward();
+      }
+    });
+
     animationController.addListener(() {
       setState(() {});
       print(animationController.value);
