@@ -26,8 +26,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     // the parent defines to what is this animation going to be applied to
     // with these animations the controller's upperBounds has to be 1
-    animation =
-        CurvedAnimation(parent: animationController, curve: Curves.ease);
+    animation = ColorTween(begin: Colors.white, end: Colors.lightBlueAccent)
+        .animate(animationController);
 
     animationController.forward();
 
@@ -43,7 +43,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     animationController.addListener(() {
       setState(() {});
-      print(animationController.value);
     });
   }
 
@@ -69,7 +68,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   tag: 'logo',
                   child: Container(
                     child: Image.asset('images/logo.png'),
-                    height: animation.value * 60,
+                    height: 60.0,
                   ),
                 ),
                 Text(
@@ -88,7 +87,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Material(
                 elevation: 5.0,
-                color: Colors.lightBlueAccent,
+                color: animation.value,
                 borderRadius: BorderRadius.circular(30.0),
                 child: MaterialButton(
                   onPressed: () {
