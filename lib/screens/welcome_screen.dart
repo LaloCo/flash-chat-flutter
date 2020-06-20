@@ -26,7 +26,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
     // the parent defines to what is this animation going to be applied to
     // with these animations the controller's upperBounds has to be 1
-    animation = ColorTween(begin: Colors.white, end: Colors.lightBlueAccent)
+    animation = ColorTween(begin: Colors.grey.shade300, end: Colors.white)
         .animate(animationController);
 
     animationController.forward();
@@ -55,7 +55,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: animation.value,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -87,7 +87,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: Material(
                 elevation: 5.0,
-                color: animation.value,
+                color: Colors.lightBlueAccent,
                 borderRadius: BorderRadius.circular(30.0),
                 child: MaterialButton(
                   onPressed: () {
