@@ -5,7 +5,7 @@ class MyRoundButton extends StatelessWidget {
   final String text;
   final Function onPressed;
 
-  MyRoundButton({this.backgroundColor, this.onPressed, this.text});
+  MyRoundButton({this.backgroundColor, @required this.onPressed, this.text});
 
   @override
   Widget build(BuildContext context) {
