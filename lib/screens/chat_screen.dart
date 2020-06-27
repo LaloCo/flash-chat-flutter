@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_chat/widgets/MessagesStream.dart';
 
 class ChatScreen extends StatefulWidget {
   static const String route = '/chat';
@@ -14,6 +15,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _firestore = Firestore.instance;
   final _auth = FirebaseAuth.instance;
+  final messageTextController = new TextEditingController();
   String message;
   FirebaseUser loggedUser;
 
@@ -67,34 +69,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            StreamBuilder(
-              stream: _firestore.collection('messages').snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.lightBlueAccent,
-                    ),
-                  );
-                }
-
-                List<Text> messageWidgets = [];
-                final messages = snapshot.data.documents;
-                for (var message in messages) {
-                  final messageText = message.data['text'];
-                  final messageSender = message.data['sender'];
-
-                  final messageWidget =
-                      Text('$messageText from $messageSender');
-                  messageWidgets.add(messageWidget);
-                }
-                return Expanded(
-                  child: ListView(
-                    children: messageWidgets,
-                  ),
-                );
-              },
-            ),
+            MessagesStream(firestore: _firestore),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
@@ -102,6 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: messageTextController,
                       onChanged: (value) {
                         setState(() {
                           message = value;
@@ -119,7 +95,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           'sender': loggedUser.email,
                         });
                         if (doc != null) {
-                          //TODO: clear message from text field
+                          messageTextController.clear();
                         }
                       } catch (e) {
                         print(e);
