@@ -12,8 +12,9 @@ class MessagesStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: firestore.collection('messages').snapshots(),
-      builder: (context, snapshot) {
+      stream:
+          firestore.collection('messages').orderBy('created_at').snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) {
           return Center(
             child: CircularProgressIndicator(
