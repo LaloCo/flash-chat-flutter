@@ -21,17 +21,17 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    super.initState();
-
     getCurrentUser();
+    super.initState();
   }
 
   void getCurrentUser() async {
     try {
       final user = await _auth.currentUser();
       if (user != null) {
-        loggedUser = user;
-        print(loggedUser.email);
+        setState(() {
+          loggedUser = user;
+        });
       }
     } catch (e) {
       print(e);
@@ -69,7 +69,10 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            MessagesStream(firestore: _firestore),
+            MessagesStream(
+              firestore: _firestore,
+              loggedinUser: loggedUser,
+            ),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
